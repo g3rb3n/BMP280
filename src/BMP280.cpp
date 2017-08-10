@@ -30,29 +30,29 @@ namespace g3rb3n
   BMP280::~BMP280()
   {}
 
-  uint8_t BMP280::address()
+  uint8_t BMP280::address() const
   {
     return i2c.address();
   }
 
-  uint8_t BMP280::identification()
+  uint8_t BMP280::identification() const
   {
     return i2c.readByte(BMP280_ID);
   }
 
-  int BMP280::connected()
+  int BMP280::connected() const
   {
     return identification() == BMP280_IDENTIFIER;
   }
 
-  bool BMP280::available()
+  bool BMP280::available() const
   {
     bool measuring = i2c.readMaskBit(BMP280_STATUS, BMP280_MASK_MEASURING);
     bool updating = i2c.readMaskBit(BMP280_STATUS, BMP280_MASK_UPDATING);
     return !measuring && !updating;
   }
 
-  Error BMP280::pressure(uint32_t &destination)
+  Error BMP280::pressure(uint32_t &destination) const
   {
     uint8_t rawData[3];
     i2c.readBytes(BMP280_PRESS_MSB, 3, &rawData[0]);
@@ -60,7 +60,7 @@ namespace g3rb3n
     return _OK;
   }
 
-  Error BMP280::temperature(uint32_t &destination)
+  Error BMP280::temperature(uint32_t &destination) const
   {
     uint8_t rawData[3];
     i2c.readBytes(BMP280_TEMP_MSB, 3, &rawData[0]);
@@ -68,7 +68,7 @@ namespace g3rb3n
     return _OK;
   }
 
-  double BMP280::var1var2()
+  double BMP280::var1var2() const
   {
     uint32_t adc_T;
     temperature(adc_T);
@@ -77,19 +77,19 @@ namespace g3rb3n
     return var1 + var2;
   }
 
-  int32_t BMP280::temperatureFine()
+  int32_t BMP280::temperatureFine() const
   {
     return (int32_t)(var1var2());
   }
 
-  Error BMP280::temperature(double& destination)
+  Error BMP280::temperature(double& destination) const
   {
     destination = var1var2() / 5120.0;
     return _OK;
   }
 
   // Returns pressure in Pa as double. Output value of “96386.2” equals 96386.2 Pa = 963.862 hPa
-  Error BMP280::pressure(double& destination)
+  Error BMP280::pressure(double& destination) const
   {
     uint32_t t_fine = temperatureFine();
     uint32_t adc_P;
@@ -113,7 +113,7 @@ namespace g3rb3n
     return _OK;
   }
 
-  PowerMode BMP280::powerMode()
+  PowerMode BMP280::powerMode() const
   {
     i2c.readMaskShift(BMP280_CTRL_MEAS, BMP280_MASK_POWER_MODE, BMP280_SHIFT_POWER_MODE);
   }
@@ -123,7 +123,7 @@ namespace g3rb3n
     i2c.writeMaskShiftValue(BMP280_CTRL_MEAS, BMP280_MASK_POWER_MODE, BMP280_SHIFT_POWER_MODE, mode);
   }
 
-  SamplingMode BMP280::pressureSamplingMode()
+  SamplingMode BMP280::pressureSamplingMode() const
   {
     i2c.readMaskShift(BMP280_CTRL_MEAS, BMP280_MASK_OVERSAMPLING_PRESSURE, BMP280_SHIFT_OVERSAMPLING_PRESSURE);  
   }
@@ -133,7 +133,7 @@ namespace g3rb3n
     i2c.writeMaskShiftValue(BMP280_CTRL_MEAS, BMP280_MASK_OVERSAMPLING_PRESSURE, BMP280_SHIFT_OVERSAMPLING_PRESSURE, mode);  
   }
 
-  SamplingMode BMP280::temperatureSamplingMode()
+  SamplingMode BMP280::temperatureSamplingMode() const
   {
     i2c.readMaskShift(BMP280_CTRL_MEAS, BMP280_MASK_OVERSAMPLING_TEMPERATURE, BMP280_SHIFT_OVERSAMPLING_TEMPERATURE);  
   }
@@ -143,7 +143,7 @@ namespace g3rb3n
     i2c.writeMaskShiftValue(BMP280_CTRL_MEAS, BMP280_MASK_OVERSAMPLING_TEMPERATURE, BMP280_SHIFT_OVERSAMPLING_TEMPERATURE, mode);
   }
 
-  StandByTimeMode BMP280::standByTimeMode()
+  StandByTimeMode BMP280::standByTimeMode() const
   {
     i2c.readMaskShift(BMP280_CONFIG, BMP280_MASK_T_SB, BMP280_SHIFT_T_SB);
   }
@@ -153,7 +153,7 @@ namespace g3rb3n
     i2c.writeMaskShiftValue(BMP280_CONFIG, BMP280_MASK_T_SB, BMP280_SHIFT_T_SB, mode);
   }
 
-  FilterCoefficientMode BMP280::filterCoefficientMode()
+  FilterCoefficientMode BMP280::filterCoefficientMode() const
   {
     i2c.readMaskShift(BMP280_CONFIG, BMP280_MASK_FILTER, BMP280_SHIFT_FILTER);
   }
@@ -211,7 +211,7 @@ namespace g3rb3n
   }
 
 
-  void BMP280::printRegisters(uint8_t start, uint8_t end)
+  void BMP280::printRegisters(uint8_t start, uint8_t end) const
   {
     Serial.printf("@0x%02X: ", start);
     for (uint8_t i = start ; i <= end ; ++i)
@@ -221,7 +221,7 @@ namespace g3rb3n
     Serial.println();
   }
 
-  void BMP280::dumpRegisters()
+  void BMP280::dumpRegisters() const
   {
     printRegisters(0x88,0xA1);
     printRegisters(0xD0,0xD0);

@@ -76,7 +76,6 @@ enum EfficiencyMode
   HIGH_RESOLUTION,
   ULTRA_HIGH_RESOLUTION
 };
-//typedef signed int BMP280_S32_t;
 
 class BMP280
 {
@@ -91,45 +90,45 @@ class BMP280
     BMP280(uint8_t address, uint8_t sda, uint8_t cls);
     ~BMP280();
 
-    uint8_t address();
-    uint8_t identification();
-    int connected();
+    uint8_t address() const;
+    uint8_t identification() const;
+    int connected() const;
 
-    bool available();
+    bool available() const;
 
-    Error temperature(uint32_t &destination);
-    Error pressure(uint32_t &destination);
-    Error temperature(double &destination);
-    Error pressure(double &destination);
+    Error temperature(uint32_t &destination) const;
+    Error pressure(uint32_t &destination) const;
+    Error temperature(double &destination) const;
+    Error pressure(double &destination) const;
 
     
-    PowerMode powerMode();
+    PowerMode powerMode() const;
     void powerMode(PowerMode mode);
     
-    SamplingMode pressureSamplingMode();
+    SamplingMode pressureSamplingMode() const;
     void pressureSamplingMode(SamplingMode mode);
     
-    SamplingMode temperatureSamplingMode();
+    SamplingMode temperatureSamplingMode() const;
     void temperatureSamplingMode(SamplingMode mode);
     
-    FilterCoefficientMode filterCoefficientMode();
+    FilterCoefficientMode filterCoefficientMode() const;
     void filterCoefficientMode(FilterCoefficientMode coefficient);
     
-    StandByTimeMode standByTimeMode();
+    StandByTimeMode standByTimeMode() const;
     void standByTimeMode(StandByTimeMode mode);
     
     void initialize();
     void reset();
     void efficiencyMode(EfficiencyMode mode);
     
-    void printRegisters(uint8_t start, uint8_t end);
-    void dumpRegisters();
+    void printRegisters(uint8_t start, uint8_t end) const;
+    void dumpRegisters() const;
 
   private:
-    double var1var2();
-    int32_t temperatureFine();
+    double var1var2() const;
+    int32_t temperatureFine() const;
 
     void readCalibration();
-};
+  };
 }
 #endif

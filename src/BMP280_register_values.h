@@ -1,0 +1,18 @@
+
+#define BMP280_IDENTIFIER 0x58
+
+#define BMP280_SKIPPED 0x00
+#define BMP280_X1      0x01
+#define BMP280_X2      0x02
+#define BMP280_X4      0x03
+#define BMP280_X8      0x04
+#define BMP280_X16     0x05
+#define BMP280_X16_1   0x06
+#define BMP280_X16_2   0x07
+
+#define BMP280_SLEEP_MODE 0x00
+#define BMP280_FORCED_MODE 0x01
+#define BMP280_FORCED_MODE_2 0x02
+#define BMP280_NORMAL_MODE 0x03
+
+#define BMP280_RESET_CODE 0xB6
